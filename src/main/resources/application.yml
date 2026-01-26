@@ -1,0 +1,13 @@
+spring:
+ application:
+  name: app
+
+ datasource:
+   url: jdbc:postgresql://localhost:5432/fitnessweb
+   username: postgres
+   password: mustaali
+
+ jpa:
+   hibernate:
+     ddl-auto: update
+   database-platform: org.hibernate.dialect.PostgreSQLDialect
