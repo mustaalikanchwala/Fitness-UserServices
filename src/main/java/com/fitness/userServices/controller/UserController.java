@@ -17,6 +17,7 @@ public class UserController {
 
     @GetMapping("/{userId}")
     public  ResponseEntity<UserResponse> getUserById(@PathVariable Long userId){
+        System.out.println("User request Comes "+userId);
         return ResponseEntity.ok(userService.getUserById(userId));
     }
 
@@ -24,6 +25,11 @@ public class UserController {
     public ResponseEntity<UserResponse> registerUser(@Valid @RequestBody RegisterUserRequest request){
         User user = userService.registerUser(request);
         return ResponseEntity.ok(UserResponse.response(user));
+    }
+
+    @GetMapping("/{userId}/validate")
+    public  ResponseEntity<Boolean> validateUserId(@PathVariable Long userId){
+        return ResponseEntity.ok(userService.existByUserId(userId));
     }
 
 }
