@@ -8,7 +8,6 @@ import com.fitness.userServices.model.User;
 import com.fitness.userServices.repository.UserRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,10 +15,11 @@ import org.springframework.stereotype.Service;
 public class UserService {
     private final UserRepository userRepository;
 
-    public User registerUser(@Valid RegisterUserRequest request) {
+    public UserResponse registerUser(@Valid RegisterUserRequest request) {
 
         if(userRepository.existsByEmail(request.email())){
-            throw new AlreadyRgisterUserException("User Already Exsists");
+            User existingUser = userRepository.findByEmail(request.email());
+            return UserResponse.response(existingUser);
         }
 
         User user = User.builder()
@@ -28,14 +28,15 @@ public class UserService {
                 .first_name(request.firstname())
                 .password(request.password())
                 .build();
-        return userRepository.save(user);
+
+        return UserResponse.response(userRepository.save(user));
     }
 
     public UserResponse getUserById(Long userId) {
         return UserResponse.response(userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User not found")));
     }
 
-    public Boolean existByUserId(Long userId) {
-        return userRepository.existsById(userId);
+    public Boolean existByUserKeycloakId(String userId) {
+        return userRepository.existsByKeycloakId(userId);
     }
 }

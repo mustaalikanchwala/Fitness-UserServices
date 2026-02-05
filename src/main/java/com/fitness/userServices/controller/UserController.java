@@ -23,13 +23,12 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<UserResponse> registerUser(@Valid @RequestBody RegisterUserRequest request){
-        User user = userService.registerUser(request);
-        return ResponseEntity.ok(UserResponse.response(user));
+        return ResponseEntity.ok(userService.registerUser(request));
     }
 
     @GetMapping("/{userId}/validate")
-    public  ResponseEntity<Boolean> validateUserId(@PathVariable Long userId){
-        return ResponseEntity.ok(userService.existByUserId(userId));
+    public  ResponseEntity<Boolean> validateUserId(@PathVariable String userId){
+        return ResponseEntity.ok(userService.existByUserKeycloakId(userId));
     }
 
 }

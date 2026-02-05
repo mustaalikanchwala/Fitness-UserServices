@@ -22,6 +22,8 @@ public class User {
     @Column(name = "user_id")
     private Long userId;
 
+    private String keycloakId;
+
     @Column(unique = true)
     private String email;
 
