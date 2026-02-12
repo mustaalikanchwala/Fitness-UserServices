@@ -13,6 +13,8 @@ public record RegisterUserRequest(
         @Size(min = 8,message = "Password must have AtLeast 8 Character")
         String password,
 
+        String keycloakId,
+
         @NotBlank(message = "First Name is required")
         String firstname,
 
